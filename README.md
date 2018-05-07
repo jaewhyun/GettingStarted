@@ -12,5 +12,3 @@ Things I need to work on:
 3. Content
 
 Obviously, long ways to go.
-
-![alt text](image/image.png "Getting Started")
