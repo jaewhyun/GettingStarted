@@ -26,10 +26,12 @@
 package template.tool;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Container;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import java.io.File;
 
@@ -42,7 +44,9 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.imageio.*;
 
 import processing.app.Base;
 import processing.app.tools.Tool;
@@ -51,6 +55,7 @@ import processing.app.ui.Editor;
 import java.io.*;
 import java.util.*;
 
+import org.imgscalr.*;
 
 // when creating a tool, the name of the main class which implements Tool must
 // be the same as the value defined for project.name in your build.properties
@@ -123,16 +128,64 @@ public class GettingStarted implements Tool, ActionListener {
 	  currentframe.requestFocusInWindow();
   }		
   
-  public void displayImage(int index) {
-	  File[] imagesList = getImages();
-	  File imageName = imagesList[index];
-	  ImageIcon icon = new ImageIcon(imageName.getAbsolutePath());
-	  Image image = icon.getImage().getScaledInstance(imageArea.getWidth(), imageArea.getHeight(), Image.SCALE_SMOOTH);
-	  imageArea.setIcon(new ImageIcon(image));
+  public Boolean displayImage(int index) {
+	 try {
+		 File[] imagesList = getImages();
+		  File imageName = imagesList[index];
+		  ImageIcon icon = new ImageIcon(imageName.getAbsolutePath());
+		  if(imageName.getAbsolutePath().toString().toLowerCase().endsWith(".gif")) {
+			  ImageIcon icon = new ImageIcon(imageName.getAbsolutePath());
+			  Dimension imageDimension = new Dimension(icon.getIconWidth(), icon.getIconHeight());
+			  Dimension labelDimension = new Dimension(imageArea.getWidth(), imageArea.getHeight());
+			  
+			  double scaleFactor = Math.min(1d, getScaledFactorToFit(imageDimension, labelDimension));
+			  int scaleWidth = (int) Math.round(icon.getIconWidth() * scaleFactor);
+			  int scaleHeight = (int) Math.round(icon.getIconHeight() * scaleFactor);
+			  
+			  Image image = icon.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_DEFAULT);
+			  imageArea.setIcon(new ImageIcon(image));
+		  } else {
+			  BufferedImage origImage;
+			  origImage = ImageIO.read(imageName);
+			  Dimension imageDimension = new Dimension(origImage.getWidth(), origImage.getHeight());
+			  Dimension labelDimension = new Dimension(imageArea.getWidth(), imageArea.getHeight());
+			  double scaleFactor = Math.min(1d, getScaledFactorToFit(imageDimension, labelDimension));
+			  int scaleWidth = (int) Math.round(origImage.getWidth() * scaleFactor);
+			  int scaleHeight = (int) Math.round(origImage.getHeight() * scaleFactor);
+			  
+			  origImage = Scalr.resize(origImage, Scalr.Method.ULTRA_QUALITY, scaleWidth, scaleHeight, Scalr.OP_ANTIALIAS);
+			  imageArea.setIcon(new ImageIcon(origImage));
+		  }
+	 } catch (IOException ex) {
+		 return false;
+	 }
+	 
+	 return true;
+  }
+  
+  
+  public double getScaleFactor(int iMasterSize, int iTargetSize) {
+	    double dScale = 1;
+	    if (iMasterSize > iTargetSize) {
+	        dScale = (double) iTargetSize / (double) iMasterSize;
+	    } else {
+	        dScale = (double) iTargetSize / (double) iMasterSize;
+	    }
+	    return dScale;
+  }
+  
+  public double getScaledFactorToFit(Dimension original, Dimension toFit) {
+	    double dScale = 1d;
+	    if (original != null && toFit != null) {
+	        double dScaleWidth = getScaleFactor(original.width, toFit.width);
+	        double dScaleHeight = getScaleFactor(original.height, toFit.height);
+	        dScale = Math.min(dScaleHeight, dScaleWidth);
+	    }
+	    return dScale;
   }
   
   public File[] getImages() {
-	  File folder = new File("img/");
+	  File folder = new File("/data/img/");
 	  File[] listofImages = folder.listFiles();
 	  return listofImages;
   }
