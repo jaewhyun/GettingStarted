@@ -132,7 +132,6 @@ public class GettingStarted implements Tool, ActionListener {
 	 try {
 		 File[] imagesList = getImages();
 		  File imageName = imagesList[index];
-		  ImageIcon icon = new ImageIcon(imageName.getAbsolutePath());
 		  if(imageName.getAbsolutePath().toString().toLowerCase().endsWith(".gif")) {
 			  ImageIcon icon = new ImageIcon(imageName.getAbsolutePath());
 			  Dimension imageDimension = new Dimension(icon.getIconWidth(), icon.getIconHeight());

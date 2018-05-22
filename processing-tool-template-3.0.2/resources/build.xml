@@ -153,11 +153,7 @@ ${line}
 	
 	
 	<target name="generate.jar">
-		<jar jarfile="${project.tmp}/${project.name}/${folder}/${project.jar.name}" basedir="${project.bin}">
-			<fileset dir="${project.img}">
-				<include name="**/*.png"/>
-			</fileset>
-		</jar>
+		<jar jarfile="${project.tmp}/${project.name}/${folder}/${project.jar.name}" basedir="${project.bin}"/>
 	</target>
 	
 	
@@ -169,10 +165,6 @@ ${line}
   		<mkdir dir="${project.tmp}/${project.name}/examples" />
 	  	<mkdir dir="${project.tmp}/${project.name}/reference" />
   		<mkdir dir="${project.tmp}/${project.name}/src" />
-		<mkdir dir="${project.tmp}/${project.name}/img" />
-		<copy todir="${project.tmp}/${project.name}/img">
-			<fileset dir="${project.img}"/>
-		</copy>			
   		<copy todir="${project.tmp}/${project.name}/examples">
   			<fileset dir="${project.examples}">
 	  			<exclude name="**/*README*"/>
