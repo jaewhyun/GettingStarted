@@ -42,6 +42,7 @@
 	
 	<property name="project.jar.name" value="${project.name}.jar"/>
 	<property name="project.src" location="src"/>
+	<property name="project.img" location="img"/>
 	<property name="project.tmp" location="tmp"/>
 	<property name="project.web" location="web"/>
 	<property name="project.data" location="data"/>
@@ -81,6 +82,7 @@
     Building the Processing Tool, ${project.name} ${tool.version}
 ${line}
 	src path        ${project.src}
+	img path        ${project.img}	
 	bin path        ${project.bin}
 	classpath.local ${classpath.local.location}
 	sketchbook      ${sketchbook.location}
