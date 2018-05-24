@@ -35,22 +35,25 @@ import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import java.io.File;
 
+import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JEditorPane;
 import javax.imageio.*;
+
+import javax.swing.text.html.HTMLEditorKit;
 
 import processing.app.Base;
 import processing.app.tools.Tool;
 import processing.app.ui.Editor;
+import processing.app.ui.WebFrame;
 
 import java.io.*;
 import java.util.*;
@@ -62,9 +65,11 @@ import org.imgscalr.*;
 
 public class GettingStarted implements Tool, ActionListener {
   Base base;
-  private JFrame currentframe;
-  JLabel imageArea;
+  WFrame currentframe;
+//  private JFrame currentframe;
+//  JLabel imageArea;
   int pos = 0;
+  String[] htmlArray = new String[] {"/data/img/1.html"};
 
   public String getMenuTitle() {
     return "Getting Started";
@@ -87,18 +92,16 @@ public class GettingStarted implements Tool, ActionListener {
   }
   
   public void createWalkthrough() {
+	  System.out.println("here");
 	  if(currentframe != null) {
 			currentframe.setVisible(true);
 			return;
-		}
+	  }
 	  
-	  currentframe = new JFrame("Getting Started");
+	  JComponent panel = Box.createHorizontalBox();
 	  
-	  JPanel imagePanel = new JPanel(new BorderLayout());
-	  imagePanel.setBorder(BorderFactory.createEmptyBorder(80, 10, 10, 10));
-	  
-	  imageArea = new JLabel();
-	  imagePanel.add(imageArea);
+	  panel.setBackground(new Color(245, 245, 245));
+	  panel.add(Box.createHorizontalGlue());
 	  
 	  JButton previousButton = new JButton("Previous");
 	  previousButton.addActionListener(this);
@@ -107,7 +110,7 @@ public class GettingStarted implements Tool, ActionListener {
 	  JButton nextButton = new JButton("Next");
 	  nextButton.addActionListener(this);
 	  nextButton.setActionCommand("Next");
-	  
+
 	  JPanel panelButtons = new JPanel();
 	  panelButtons.setLayout(new BoxLayout(panelButtons, BoxLayout.LINE_AXIS));
 	  panelButtons.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
@@ -116,50 +119,33 @@ public class GettingStarted implements Tool, ActionListener {
 	  panelButtons.add(previousButton);
 	  panelButtons.add(nextButton);
 	  
-	  currentframe.setSize(439, 548);
-	  currentframe.setResizable(false);
+	  panel.add(panelButtons);
 	  
-	  Container pane = currentframe.getContentPane();
-	  pane.add(imagePanel, BorderLayout.CENTER);
-	  currentframe.add(panelButtons, BorderLayout.PAGE_END);
+//	  currentframe.setSize(439, 548);
+//	  currentframe.setResizable(false);
+//	  
+//	  Container pane = currentframe.getContentPane();
+//	  pane.add(imagePanel, BorderLayout.CENTER);
+//	  currentframe.add(panelButtons, BorderLayout.PAGE_END);
+//	  
+//	  currentframe.setVisible(true);
+//
+//	  currentframe.requestFocusInWindow();
+	  try {
+		  System.out.println("establishing WFrame");
+		  currentframe = new WFrame(439, 548, panel);
+		  currentframe.setVisible(true);
+		  currentframe.requestFocusInWindow();
+	  } catch(IOException e) {
+		  e.printStackTrace();
+	  }
 	  
-	  currentframe.setVisible(true);
-
-	  currentframe.requestFocusInWindow();
   }		
   
-  public Boolean displayImage(int index) {
-	 try {
-		 File[] imagesList = getImages();
-		  File imageName = imagesList[index];
-		  if(imageName.getAbsolutePath().toString().toLowerCase().endsWith(".gif")) {
-			  ImageIcon icon = new ImageIcon(imageName.getAbsolutePath());
-			  Dimension imageDimension = new Dimension(icon.getIconWidth(), icon.getIconHeight());
-			  Dimension labelDimension = new Dimension(imageArea.getWidth(), imageArea.getHeight());
-			  
-			  double scaleFactor = Math.min(1d, getScaledFactorToFit(imageDimension, labelDimension));
-			  int scaleWidth = (int) Math.round(icon.getIconWidth() * scaleFactor);
-			  int scaleHeight = (int) Math.round(icon.getIconHeight() * scaleFactor);
-			  
-			  Image image = icon.getImage().getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_DEFAULT);
-			  imageArea.setIcon(new ImageIcon(image));
-		  } else {
-			  BufferedImage origImage;
-			  origImage = ImageIO.read(imageName);
-			  Dimension imageDimension = new Dimension(origImage.getWidth(), origImage.getHeight());
-			  Dimension labelDimension = new Dimension(imageArea.getWidth(), imageArea.getHeight());
-			  double scaleFactor = Math.min(1d, getScaledFactorToFit(imageDimension, labelDimension));
-			  int scaleWidth = (int) Math.round(origImage.getWidth() * scaleFactor);
-			  int scaleHeight = (int) Math.round(origImage.getHeight() * scaleFactor);
-			  
-			  origImage = Scalr.resize(origImage, Scalr.Method.ULTRA_QUALITY, scaleWidth, scaleHeight, Scalr.OP_ANTIALIAS);
-			  imageArea.setIcon(new ImageIcon(origImage));
-		  }
-	 } catch (IOException ex) {
-		 return false;
-	 }
-	 
-	 return true;
+  public void displayhtml(int index) {
+	  File htmlfile = getIndexFile(index);
+	  System.out.println(htmlfile.getAbsolutePath());
+	  currentframe.setFile(439, htmlfile);
   }
   
   
@@ -183,10 +169,17 @@ public class GettingStarted implements Tool, ActionListener {
 	    return dScale;
   }
   
-  public File[] getImages() {
-	  File folder = new File("/data/img/");
-	  File[] listofImages = folder.listFiles();
-	  return listofImages;
+  public File getIndexFile(int index) {
+	  String filename = htmlArray[index];
+	  java.net.URL htmlURL = getClass().getResource(filename);
+			  
+	  File htmlfile = new File(htmlURL.getFile());
+	  System.out.println(htmlfile.getAbsolutePath());
+	  if(htmlfile.exists()) {
+		  return htmlfile;
+	  }
+	  
+	  return null;
   }
   
   @Override 
@@ -203,14 +196,14 @@ public class GettingStarted implements Tool, ActionListener {
 				pos = 0;
 			}
 			
-			displayImage(pos);
+			displayhtml(pos);
 		} else if(selected.equals("Next")) {
 			pos = pos + 1;
-			if(pos >= getImages().length) {
-				pos = getImages().length - 1;
+			if(pos >= htmlArray.length) {
+				pos = htmlArray.length - 1;
 			}
 			
-			displayImage(pos);
+			displayhtml(pos);
 		}
   }
 }
