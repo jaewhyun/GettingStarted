@@ -58,8 +58,6 @@ import processing.app.ui.WebFrame;
 import java.io.*;
 import java.util.*;
 
-import org.imgscalr.*;
-
 // when creating a tool, the name of the main class which implements Tool must
 // be the same as the value defined for project.name in your build.properties
 
@@ -69,7 +67,7 @@ public class GettingStarted implements Tool, ActionListener {
 //  private JFrame currentframe;
 //  JLabel imageArea;
   int pos = 0;
-  String[] htmlArray = new String[] {"/data/img/1.html"};
+  String[] htmlArray = new String[] {"/Users/jaewonhyun/Desktop/1.html"};
 
   public String getMenuTitle() {
     return "Getting Started";
@@ -121,16 +119,6 @@ public class GettingStarted implements Tool, ActionListener {
 	  
 	  panel.add(panelButtons);
 	  
-//	  currentframe.setSize(439, 548);
-//	  currentframe.setResizable(false);
-//	  
-//	  Container pane = currentframe.getContentPane();
-//	  pane.add(imagePanel, BorderLayout.CENTER);
-//	  currentframe.add(panelButtons, BorderLayout.PAGE_END);
-//	  
-//	  currentframe.setVisible(true);
-//
-//	  currentframe.requestFocusInWindow();
 	  try {
 		  System.out.println("establishing WFrame");
 		  currentframe = new WFrame(439, 548, panel);
@@ -145,7 +133,7 @@ public class GettingStarted implements Tool, ActionListener {
   public void displayhtml(int index) {
 	  File htmlfile = getIndexFile(index);
 	  System.out.println(htmlfile.getAbsolutePath());
-	  currentframe.setFile(439, htmlfile);
+	  currentframe.setFile(htmlfile);
   }
   
   
@@ -171,10 +159,11 @@ public class GettingStarted implements Tool, ActionListener {
   
   public File getIndexFile(int index) {
 	  String filename = htmlArray[index];
-	  java.net.URL htmlURL = getClass().getResource(filename);
+//	  java.net.URL htmlURL = filename;
+//	  java.net.URL htmlURL = getClass().getResource(filename);
 			  
-	  File htmlfile = new File(htmlURL.getFile());
-	  System.out.println(htmlfile.getAbsolutePath());
+//	  File htmlfile = new File(htmlURL.getFile());
+	  File htmlfile = new File(filename);
 	  if(htmlfile.exists()) {
 		  return htmlfile;
 	  }

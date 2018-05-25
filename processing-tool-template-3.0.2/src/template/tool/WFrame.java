@@ -33,13 +33,10 @@ public class WFrame extends JFrame {
 	boolean ready;
 	
 	public WFrame(int width, int height, Container panel) throws IOException {
-		
-//		URL fileUrl = file.toURI().toURL();
-//		requestContentHeight(width, fileUrl);
-		this.setSize(width, height);
+
+		setSize(width, height);
+		this.setResizable(false);
 		editorPane = new JEditorPane();
-		
-//		editorPane.setPage(fileUrl);
 		editorPane.setEditable(false);
 		
 		editorPane.setPreferredSize(new Dimension(width, height));
@@ -61,16 +58,11 @@ public class WFrame extends JFrame {
 		
 		System.out.println("we're here1");
 		
-		File filelocation = new File("/Users/jaewonhyun/Desktop/1.html");
-		URL filefile = filelocation.toURI().toURL();
-		editorPane.setPage(filefile);
 		editorPane.setContentType("text/html");
 		editorkit = new HTMLEditorKit();
 		editorkit.setAutoFormSubmission(false);
 		editorPane.setEditorKit(editorkit);
-//		editorKit = (HTMLEditorKit) editorPane.getEditorKit();
 		System.out.println("we're here2");
-//		editorKit.setAutoFormSubmission(false);
 		
 		editorPane.addHyperlinkListener(new HyperlinkListener() {
 			@Override
@@ -84,10 +76,9 @@ public class WFrame extends JFrame {
 		System.out.println("finished establishing");
 	}
 	
-	public void setFile(int width, File file) {
+	public void setFile(File file) {
 		try {
 			URL fileUrl = file.toURI().toURL();
-			requestContentHeight(width, fileUrl);
 			editorPane.setPage(fileUrl);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -105,31 +96,6 @@ public class WFrame extends JFrame {
 	
 	public void openthislink(String url) throws Exception {
 		Desktop.getDesktop().browse(new URI(url));
-	}
-	
-	void requestContentHeight(final int width, final URL url) {
-		new Thread(new Runnable() {
-			public void run() {
-				final JEditorPane dummy = new JEditorPane();
-				dummy.addPropertyChangeListener("page", new PropertyChangeListener() {
-					@Override
-					public void propertyChange(PropertyChangeEvent e) {
-						int high = dummy.getPreferredSize().height;
-						editorPane.setPreferredSize(new Dimension(width, high));
-						pack();
-						setLocationRelativeTo(null);
-						ready = true;
-					}
-				});
-				try {
-					dummy.setPage(url);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				dummy.setSize(width, Short.MAX_VALUE);
-			}
-		}).start();
 	}
 	
 	public void handleClose() {
