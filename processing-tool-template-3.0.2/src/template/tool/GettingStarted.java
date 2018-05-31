@@ -67,7 +67,26 @@ public class GettingStarted implements Tool, ActionListener {
 //  private JFrame currentframe;
 //  JLabel imageArea;
   int pos = 0;
-  String[] htmlArray = new String[] {"/Users/jaewonhyun/Desktop/1.html"};
+  String[] htmlArray = new String[] {
+//		  "/Users/jaewonhyun/Desktop/static/0.html",
+//		  "/Users/jaewonhyun/Desktop/static/1.html", 
+//		  "/Users/jaewonhyun/Desktop/static/2.html", 
+//		  "/Users/jaewonhyun/Desktop/static/3.html",
+//		  "/Users/jaewonhyun/Desktop/static/4.html",
+//		  "/Users/jaewonhyun/Desktop/static/5.html",
+//		  "/Users/jaewonhyun/Desktop/static/6.html",
+//		  "/Users/jaewonhyun/Desktop/static/7.html",
+//		  "/Users/jaewonhyun/Desktop/static/8.html"};
+		  "/data/static/0.html",
+		  "/data/static/1.html",
+		  "/data/static/2.html",
+		  "/data/static/3.html",
+		  "/data/static/4.html",
+		  "/data/static/5.html",
+		  "/data/static/6.html",
+		  "/data/static/7.html",
+		  "/data/static/8.html"};
+		  
 
   public String getMenuTitle() {
     return "Getting Started";
@@ -121,7 +140,7 @@ public class GettingStarted implements Tool, ActionListener {
 	  
 	  try {
 		  System.out.println("establishing WFrame");
-		  currentframe = new WFrame(439, 548, panel);
+		  currentframe = new WFrame(439, 570, panel);
 		  currentframe.setVisible(true);
 		  currentframe.requestFocusInWindow();
 	  } catch(IOException e) {
@@ -159,11 +178,11 @@ public class GettingStarted implements Tool, ActionListener {
   
   public File getIndexFile(int index) {
 	  String filename = htmlArray[index];
-//	  java.net.URL htmlURL = filename;
-//	  java.net.URL htmlURL = getClass().getResource(filename);
+	  java.net.URL htmlURL = getClass().getResource(filename);
 			  
-//	  File htmlfile = new File(htmlURL.getFile());
-	  File htmlfile = new File(filename);
+	  File htmlfile = new File(htmlURL.getFile());
+	  System.out.println(htmlfile.getAbsolutePath());
+//	  File htmlfile = new File(filename);
 	  if(htmlfile.exists()) {
 		  return htmlfile;
 	  }
