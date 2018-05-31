@@ -25,13 +25,10 @@
 
 package template.tool;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Container;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import java.io.File;
 
@@ -47,6 +44,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.imageio.*;
+import java.net.URL;
 
 import javax.swing.text.html.HTMLEditorKit;
 
@@ -64,19 +62,9 @@ import java.util.*;
 public class GettingStarted implements Tool, ActionListener {
   Base base;
   WFrame currentframe;
-//  private JFrame currentframe;
-//  JLabel imageArea;
+
   int pos = 0;
   String[] htmlArray = new String[] {
-//		  "/Users/jaewonhyun/Desktop/static/0.html",
-//		  "/Users/jaewonhyun/Desktop/static/1.html", 
-//		  "/Users/jaewonhyun/Desktop/static/2.html", 
-//		  "/Users/jaewonhyun/Desktop/static/3.html",
-//		  "/Users/jaewonhyun/Desktop/static/4.html",
-//		  "/Users/jaewonhyun/Desktop/static/5.html",
-//		  "/Users/jaewonhyun/Desktop/static/6.html",
-//		  "/Users/jaewonhyun/Desktop/static/7.html",
-//		  "/Users/jaewonhyun/Desktop/static/8.html"};
 		  "/data/static/0.html",
 		  "/data/static/1.html",
 		  "/data/static/2.html",
@@ -150,44 +138,16 @@ public class GettingStarted implements Tool, ActionListener {
   }		
   
   public void displayhtml(int index) {
-	  File htmlfile = getIndexFile(index);
-	  System.out.println(htmlfile.getAbsolutePath());
+	  URL htmlfile = getIndexFile(index);
 	  currentframe.setFile(htmlfile);
   }
-  
-  
-  public double getScaleFactor(int iMasterSize, int iTargetSize) {
-	    double dScale = 1;
-	    if (iMasterSize > iTargetSize) {
-	        dScale = (double) iTargetSize / (double) iMasterSize;
-	    } else {
-	        dScale = (double) iTargetSize / (double) iMasterSize;
-	    }
-	    return dScale;
-  }
-  
-  public double getScaledFactorToFit(Dimension original, Dimension toFit) {
-	    double dScale = 1d;
-	    if (original != null && toFit != null) {
-	        double dScaleWidth = getScaleFactor(original.width, toFit.width);
-	        double dScaleHeight = getScaleFactor(original.height, toFit.height);
-	        dScale = Math.min(dScaleHeight, dScaleWidth);
-	    }
-	    return dScale;
-  }
-  
-  public File getIndexFile(int index) {
+ 
+  public URL getIndexFile(int index) {
 	  String filename = htmlArray[index];
 	  java.net.URL htmlURL = getClass().getResource(filename);
-			  
-	  File htmlfile = new File(htmlURL.getFile());
-	  System.out.println(htmlfile.getAbsolutePath());
-//	  File htmlfile = new File(filename);
-	  if(htmlfile.exists()) {
-		  return htmlfile;
-	  }
+	  System.out.println(htmlURL);
 	  
-	  return null;
+	  return htmlURL;
   }
   
   @Override 

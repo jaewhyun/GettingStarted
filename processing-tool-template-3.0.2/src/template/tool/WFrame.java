@@ -73,12 +73,9 @@ public class WFrame extends JFrame {
 		});
 	}
 	
-	public void setFile(File file) {
+	public void setFile(URL urllink) {
 		try {
-			URL fileUrl = file.toURI().toURL();
-			System.out.println(getClass());
-			editorPane.setPage(fileUrl);
-			
+			editorPane.setPage(urllink);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
