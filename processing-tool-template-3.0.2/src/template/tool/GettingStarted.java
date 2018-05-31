@@ -97,7 +97,6 @@ public class GettingStarted implements Tool, ActionListener {
   }
   
   public void createWalkthrough() {
-	  System.out.println("here");
 	  if(currentframe != null) {
 			currentframe.setVisible(true);
 			return;
@@ -127,7 +126,6 @@ public class GettingStarted implements Tool, ActionListener {
 	  panel.add(panelButtons);
 	  
 	  try {
-		  System.out.println("establishing WFrame");
 		  currentframe = new WFrame(439, 570, panel);
 		  currentframe.setVisible(true);
 		  currentframe.requestFocusInWindow();
@@ -145,7 +143,6 @@ public class GettingStarted implements Tool, ActionListener {
   public URL getIndexFile(int index) {
 	  String filename = htmlArray[index];
 	  java.net.URL htmlURL = getClass().getResource(filename);
-	  System.out.println(htmlURL);
 	  
 	  return htmlURL;
   }
