@@ -1,6 +1,6 @@
 /*
  *
- * Reference: WebFrame.java from Processing repository.
+ * Referenced: WebFrame.java from the Processing repository.
  *
  */
 
@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Desktop;
+import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -56,13 +57,11 @@ public class WFrame extends JFrame {
 
 		Toolkit.setIcon(this);
 		
-		System.out.println("we're here1");
-		
 		editorPane.setContentType("text/html");
+		
 		editorkit = new HTMLEditorKit();
 		editorkit.setAutoFormSubmission(false);
 		editorPane.setEditorKit(editorkit);
-		System.out.println("we're here2");
 		
 		editorPane.addHyperlinkListener(new HyperlinkListener() {
 			@Override
@@ -72,14 +71,14 @@ public class WFrame extends JFrame {
 				}
 			}
 		});
-		
-		System.out.println("finished establishing");
 	}
 	
 	public void setFile(File file) {
 		try {
 			URL fileUrl = file.toURI().toURL();
+			System.out.println(getClass());
 			editorPane.setPage(fileUrl);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -90,7 +89,7 @@ public class WFrame extends JFrame {
 		try {
 			openthislink(link);
 		} catch(Exception e) {
-			  e.printStackTrace();
+			 e.printStackTrace();
 		}
 	}
 	
