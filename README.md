@@ -3,12 +3,7 @@ A Tool for Getting Started in Processing (https://processing.org/tutorials/getti
 
 [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
+Screenshots of current frames:
+![screenshot1](readme_images/image1.jpeg)
+![screenshot2](readme_images/image2.jpeg)
 
-Not much to be said yet - frame exists but images need fixing as well as the build path.
-
-Things I need to work on:
-1. Design
-2. Image resizing
-3. Content
-
-Obviously, long ways to go.
