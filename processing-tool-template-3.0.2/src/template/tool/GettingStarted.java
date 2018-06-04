@@ -1,7 +1,7 @@
 /**
- * you can put a one sentence description of your tool here.
+ * Welcome Tool for PDE
  *
- * ##copyright##
+ * ##Copyright (c) 2018 Jae Won Hyun##
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,9 +18,9 @@
  * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  * Boston, MA  02111-1307  USA
  *
- * @author   ##author##
- * @modified ##date##
- * @version  ##tool.prettyVersion##
+ * @author   ##Jae Won Hyun##
+ * @modified ##06/04/2018##
+ * @version  ##1.0.0##
  */
 
 package template.tool;
@@ -73,7 +73,10 @@ public class GettingStarted implements Tool, ActionListener {
 		  "/data/static/5.html",
 		  "/data/static/6.html",
 		  "/data/static/7.html",
-		  "/data/static/8.html"};
+		  "/data/static/8.html",
+		  "/data/static/9.html",
+		  "/data/static/10.html",
+		  "/data/static/11.html"};
 		  
 
   public String getMenuTitle() {
