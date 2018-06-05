@@ -1,7 +1,7 @@
 /**
  * Welcome Tool for PDE
  *
- * ##Copyright (c) 2018 Jae Won Hyun##
+ * Copyright (c) 2018 Jae Won Hyun
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,9 +18,9 @@
  * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  * Boston, MA  02111-1307  USA
  *
- * @author   ##Jae Won Hyun##
- * @modified ##06/04/2018##
- * @version  ##1.0.0##
+ * @author   Jae Won Hyun
+ * @modified 06/04/2018
+ * @version  1.0.0
  */
 
 package template.tool;
@@ -132,6 +132,7 @@ public class GettingStarted implements Tool, ActionListener {
 		  currentframe = new WFrame(439, 570, panel);
 		  currentframe.setVisible(true);
 		  currentframe.requestFocusInWindow();
+		  displayhtml(pos);
 	  } catch(IOException e) {
 		  e.printStackTrace();
 	  }
