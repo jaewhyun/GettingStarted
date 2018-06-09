@@ -35,7 +35,6 @@ import java.io.File;
 import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -43,12 +42,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
-import javax.imageio.*;
 import java.net.URL;
 
 import javax.swing.text.html.HTMLEditorKit;
 
 import processing.app.Base;
+import processing.app.Sketch;
 import processing.app.tools.Tool;
 import processing.app.ui.Editor;
 import processing.app.ui.WebFrame;
@@ -62,6 +61,9 @@ import java.util.*;
 public class GettingStarted implements Tool, ActionListener {
   Base base;
   WFrame currentframe;
+  JButton tryitButton;
+  JButton previousButton;
+  JButton nextButton;
 
   int pos = 0;
   String[] htmlArray = new String[] {
@@ -76,7 +78,9 @@ public class GettingStarted implements Tool, ActionListener {
 		  "/data/static/8.html",
 		  "/data/static/9.html",
 		  "/data/static/10.html",
-		  "/data/static/11.html"};
+		  "/data/static/11.html",
+		  "/data/static/12.html",
+		  "/data/static/13.html"};
 		  
 
   public String getMenuTitle() {
@@ -106,15 +110,19 @@ public class GettingStarted implements Tool, ActionListener {
 	  }
 	  
 	  JComponent panel = Box.createHorizontalBox();
-	  
 	  panel.setBackground(new Color(245, 245, 245));
-	  panel.add(Box.createHorizontalGlue());
+//	  panel.add(Box.createHorizontalGlue());
 	  
-	  JButton previousButton = new JButton("Previous");
+	  tryitButton = new JButton("Try It!");
+	  tryitButton.addActionListener(this);
+	  tryitButton.setActionCommand("Try It!");
+	  tryitButton.setEnabled(false);
+	  
+	  previousButton = new JButton("Previous");
 	  previousButton.addActionListener(this);
 	  previousButton.setActionCommand("Previous");
 	  
-	  JButton nextButton = new JButton("Next");
+	  nextButton = new JButton("Next");
 	  nextButton.addActionListener(this);
 	  nextButton.setActionCommand("Next");
 
@@ -122,6 +130,7 @@ public class GettingStarted implements Tool, ActionListener {
 	  panelButtons.setLayout(new BoxLayout(panelButtons, BoxLayout.LINE_AXIS));
 	  panelButtons.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 	  panelButtons.add(Box.createRigidArea(new Dimension(10, 0)));
+	  panelButtons.add(tryitButton);
 	  panelButtons.add(Box.createHorizontalGlue());
 	  panelButtons.add(previousButton);
 	  panelButtons.add(nextButton);
@@ -133,6 +142,7 @@ public class GettingStarted implements Tool, ActionListener {
 		  currentframe.setVisible(true);
 		  currentframe.requestFocusInWindow();
 		  displayhtml(pos);
+		  previousButton.setEnabled(false);
 	  } catch(IOException e) {
 		  e.printStackTrace();
 	  }
@@ -159,15 +169,69 @@ public class GettingStarted implements Tool, ActionListener {
 
 		String selected = e.getActionCommand();
 		
+		if(selected.equals("Try It!")) {
+			Editor editor = base.getActiveEditor();
+			if(pos == 1) {
+				String drawEllipse = "ellipse(50, 50, 80, 80);";
+				editor.setText(drawEllipse);
+			} else if(pos == 3) {
+				String aniEllipse = "void setup() {"+"\n"+
+									" size(480, 120);\n"+
+									"}\n"+
+									"\n"+
+									"void draw() {"+"\n"+
+									" if(mousePressed) {"+"\n"+
+									"   fill(0);\n"+
+									" } else {\n" +
+									"   fill(255);\n"+
+									" }\n"+
+									" ellipse(mouseX, mouseY, 80, 80);\n"+
+									"}\n";
+				
+				editor.setText(aniEllipse);
+			} else if(pos == 9) {
+				String idErrors = "void setup() {"+"\n"+
+									" size(200, 200);\n"+
+									"}\n"+
+									"\n"+
+									"void draw() {"+"\n"+
+									" int x = 50\n"+
+									" ellipse(300, 200, 50, 50;\n"+
+									"}\n";
+				editor.setText(idErrors);
+			}
+		}
+		
 		if(selected.equals("Previous")) {
 			pos = pos - 1;
-			if(pos < 0) {
-				pos = 0;
+			nextButton.setEnabled(true);
+			
+			if(pos == 1 || pos == 3 || pos == 9) {
+				tryitButton.setEnabled(true);
+			} else {
+				tryitButton.setEnabled(false);
 			}
 			
+			if(pos < 0 || pos == 0) {
+				pos = 0;
+				previousButton.setEnabled(false);
+			} 
+
 			displayhtml(pos);
 		} else if(selected.equals("Next")) {
 			pos = pos + 1;
+			if(pos == htmlArray.length - 1) {
+				nextButton.setEnabled(false);
+			} 
+			
+			if(pos == 1 || pos == 3 || pos == 9) {
+				tryitButton.setEnabled(true);
+			} else {
+				tryitButton.setEnabled(false);
+			}
+			
+			previousButton.setEnabled(true);
+			
 			if(pos >= htmlArray.length) {
 				pos = htmlArray.length - 1;
 			}
