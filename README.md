@@ -6,4 +6,5 @@ A Tool for Getting Started in Processing (https://processing.org/tutorials/getti
 Screenshots of current frames:
 ![screenshot1](readme_images/image1.jpeg)
 ![screenshot2](readme_images/image2.jpeg)
+![screenshot3](readme_images/image3.jpeg)
 
