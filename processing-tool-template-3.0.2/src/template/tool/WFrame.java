@@ -1,7 +1,7 @@
 /**
  * Welcome Tool for PDE
  *
- * ##Copyright (c) 2018 Jae Won Hyun##
+ * Copyright (c) 2018 Jae Won Hyun
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,9 +18,9 @@
  * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  * Boston, MA  02111-1307  USA
  *
- * @author   ##Jae Won Hyun##
- * @modified ##06/04/2018##
- * @version  ##1.0.0##
+ * @author   Jae Won Hyun
+ * @modified 06/04/2018
+ * @version  1.0.0
  */
 
 /**
@@ -48,9 +48,6 @@ import javax.swing.text.html.*;
 
 import processing.app.Platform;
 import processing.app.ui.Toolkit;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public class WFrame extends JFrame {
 	JEditorPane editorPane;
