@@ -105,6 +105,7 @@ public class GettingStarted implements Tool, ActionListener {
   
   public void createWalkthrough() {
 	  if(currentframe != null) {
+		  	displayhtml(0);
 			currentframe.setVisible(true);
 			return;
 	  }
