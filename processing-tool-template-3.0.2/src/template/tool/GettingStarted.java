@@ -106,6 +106,7 @@ public class GettingStarted implements Tool, ActionListener {
   public void createWalkthrough() {
 	  if(currentframe != null) {
 		  	displayhtml(0);
+		  	pos = 0;
 			currentframe.setVisible(true);
 			return;
 	  }
@@ -190,7 +191,7 @@ public class GettingStarted implements Tool, ActionListener {
 									"}\n";
 				
 				editor.setText(aniEllipse);
-			} else if(pos == 9) {
+			} else if(pos == 10) {
 				String idErrors = "void setup() {"+"\n"+
 									" size(200, 200);\n"+
 									"}\n"+
@@ -207,7 +208,7 @@ public class GettingStarted implements Tool, ActionListener {
 			pos = pos - 1;
 			nextButton.setEnabled(true);
 			
-			if(pos == 1 || pos == 3 || pos == 9) {
+			if(pos == 1 || pos == 3 || pos == 10) {
 				tryitButton.setEnabled(true);
 			} else {
 				tryitButton.setEnabled(false);
@@ -225,7 +226,7 @@ public class GettingStarted implements Tool, ActionListener {
 				nextButton.setEnabled(false);
 			} 
 			
-			if(pos == 1 || pos == 3 || pos == 9) {
+			if(pos == 1 || pos == 3 || pos == 10) {
 				tryitButton.setEnabled(true);
 			} else {
 				tryitButton.setEnabled(false);
