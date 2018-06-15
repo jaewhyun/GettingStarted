@@ -1,5 +1,5 @@
 /**
- * Welcome Tool for PDE
+ * Getting Started Tool for PDE
  *
  * Copyright (c) 2018 Jae Won Hyun
  *
@@ -26,7 +26,6 @@
 package template.tool;
 
 import java.awt.Dimension;
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Dimension;
@@ -113,7 +112,6 @@ public class GettingStarted implements Tool, ActionListener {
 	  
 	  JComponent panel = Box.createHorizontalBox();
 	  panel.setBackground(new Color(245, 245, 245));
-//	  panel.add(Box.createHorizontalGlue());
 	  
 	  tryitButton = new JButton("Try It!");
 	  tryitButton.addActionListener(this);
