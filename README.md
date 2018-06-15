@@ -1,5 +1,5 @@
 # GettingStarted
-A Tool for Getting Started in Processing (https://processing.org/tutorials/gettingstarted/) - in progress
+A Tool for Getting Started in Processing (https://processing.org/tutorials/gettingstarted/)
 
 [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
