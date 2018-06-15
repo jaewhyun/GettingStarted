@@ -1,5 +1,5 @@
 /**
- * Welcome Tool for PDE
+ * Getting Started Tool for PDE
  *
  * Copyright (c) 2018 Jae Won Hyun
  *
@@ -36,7 +36,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Desktop;
-import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -52,9 +51,7 @@ import processing.app.ui.Toolkit;
 public class WFrame extends JFrame {
 	JEditorPane editorPane;
 	HTMLEditorKit editorkit;
-	
-	boolean ready;
-	
+
 	public WFrame(int width, int height, Container panel) throws IOException {
 
 		setSize(width, height);
