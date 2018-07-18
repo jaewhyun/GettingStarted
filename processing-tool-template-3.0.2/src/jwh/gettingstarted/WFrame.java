@@ -29,10 +29,12 @@
  *
  */
 
-package template.tool;
+package jwh.gettingstarted;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Desktop;
@@ -51,9 +53,9 @@ import processing.app.ui.Toolkit;
 public class WFrame extends JFrame {
 	JEditorPane editorPane;
 	HTMLEditorKit editorkit;
+	Font font;
 
 	public WFrame(int width, int height, Container panel) throws IOException {
-
 		setSize(width, height);
 		this.setResizable(false);
 		editorPane = new JEditorPane();
@@ -61,7 +63,19 @@ public class WFrame extends JFrame {
 		
 		editorPane.setPreferredSize(new Dimension(width, height));
 		
+		java.net.URL fontURL = getClass().getResource("/data/Raleway-Regular.ttf");
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, fontURL.openStream());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		ge.registerFont(font);
+		
+		editorPane.setFont(font);
 		Container containerPanel = getContentPane();
+		containerPanel.setFont(font);
 		containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.PAGE_AXIS));
 		containerPanel.add(editorPane);
 		if(panel != null) 

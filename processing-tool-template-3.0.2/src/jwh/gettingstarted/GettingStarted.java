@@ -23,7 +23,7 @@
  * @version  1.0.0
  */
 
-package template.tool;
+package jwh.gettingstarted;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
