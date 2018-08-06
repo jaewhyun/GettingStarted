@@ -134,7 +134,8 @@ public class GettingStarted implements Tool, ActionListener {
 	  panelButtons.add(Box.createHorizontalGlue());
 	  panelButtons.add(previousButton);
 	  panelButtons.add(nextButton);
-	  
+//	  panelButtons.setBackground(Color.WHITE);
+	 
 	  panel.add(panelButtons);
 	  
 	  try {
