@@ -31,6 +31,7 @@
 
 package jwh.gettingstarted;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -53,27 +54,22 @@ import processing.app.ui.Toolkit;
 public class WFrame extends JFrame {
 	JEditorPane editorPane;
 	HTMLEditorKit editorkit;
+	StyleSheet css;
 	Font font;
 
 	public WFrame(int width, int height, Container panel) throws IOException {
 		setSize(width, height);
-		this.setResizable(false);
+		super.setResizable(false);
+	
 		editorPane = new JEditorPane();
 		editorPane.setEditable(false);
 		
 		editorPane.setPreferredSize(new Dimension(width, height));
 		
-		java.net.URL fontURL = getClass().getResource("/data/Raleway-Regular.ttf");
-		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, fontURL.openStream());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		ge.registerFont(font);
+		font = Toolkit.getSansFont(10, Font.PLAIN);
 		
 		editorPane.setFont(font);
+		
 		Container containerPanel = getContentPane();
 		containerPanel.setFont(font);
 		containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.PAGE_AXIS));
@@ -95,6 +91,8 @@ public class WFrame extends JFrame {
 		editorkit = new HTMLEditorKit();
 		editorkit.setAutoFormSubmission(false);
 		editorPane.setEditorKit(editorkit);
+		css = editorkit.getStyleSheet();
+		css.addRule("body {font-family: ProcessingSansPro-Regular; font-size: 10px; background-color:#EEEEEE}"); 
 		
 		editorPane.addHyperlinkListener(new HyperlinkListener() {
 			@Override
