@@ -59,11 +59,13 @@ import java.util.*;
 
 public class GettingStarted implements Tool, ActionListener {
   Base base;
-  WFrame currentframe;
+  WFrame currentFrame;
   JButton tryitButton;
   JButton previousButton;
   JButton nextButton;
-
+  int open = 0;
+  int openLocation = 0;
+  
   int pos = 0;
   String[] htmlArray = new String[] {
 		  "/data/static/0.html",
@@ -88,25 +90,24 @@ public class GettingStarted implements Tool, ActionListener {
 
 
   public void init(Base base) {
-    // Store a reference to the Processing application itself
     this.base = base;
   }
 
 
   public void run() {
-    // Get the currently active Editor to run the Tool on it
     Editor editor = base.getActiveEditor();
     createWalkthrough();
-    // Fill in author.name, author.url, tool.prettyVersion and
-    // project.prettyName in build.properties for them to be auto-replaced here.
     System.out.println("Getting Started 1.0.0 by Jae Hyun");
   }
   
+  /*
+   * Adding buttons to the frame
+   */
   public void createWalkthrough() {
-	  if(currentframe != null) {
+	  if(currentFrame != null) {
 		  	displayhtml(0);
 		  	pos = 0;
-			currentframe.setVisible(true);
+			currentFrame.setVisible(true);
 			return;
 	  }
 	  
@@ -139,9 +140,9 @@ public class GettingStarted implements Tool, ActionListener {
 	  panel.add(panelButtons);
 	  
 	  try {
-		  currentframe = new WFrame(439, 570, panel);
-		  currentframe.setVisible(true);
-		  currentframe.requestFocusInWindow();
+		  currentFrame = new WFrame(439, 570, panel);
+		  currentFrame.setVisible(true);
+		  currentFrame.requestFocusInWindow();
 		  displayhtml(pos);
 		  previousButton.setEnabled(false);
 	  } catch(IOException e) {
@@ -150,16 +151,57 @@ public class GettingStarted implements Tool, ActionListener {
 	  
   }		
   
-  public void displayhtml(int index) {
-	  URL htmlfile = getIndexFile(index);
-	  currentframe.setFile(htmlfile);
-  }
- 
+  /*
+   * Retrieving html file
+   */
   public URL getIndexFile(int index) {
 	  String filename = htmlArray[index];
 	  java.net.URL htmlURL = getClass().getResource(filename);
 	  
 	  return htmlURL;
+  }
+  
+  /*
+   * displying the html file
+   */
+  public void displayhtml(int index) {
+	  URL htmlfile = getIndexFile(index);
+	  currentFrame.setFile(htmlfile);
+  }
+ 
+  /*
+   * Setting Try It codes
+   */
+  public void setCode(Editor editorInput) {
+		if(pos == 1) {
+			String drawEllipse = "ellipse(50, 50, 80, 80);";
+			editorInput.setText(drawEllipse);
+		} else if(pos == 3) {
+			String aniEllipse = "void setup() {"+"\n"+
+								" size(480, 120);\n"+
+								"}\n"+
+								"\n"+
+								"void draw() {"+"\n"+
+								" if(mousePressed) {"+"\n"+
+								"   fill(0);\n"+
+								" } else {\n" +
+								"   fill(255);\n"+
+								" }\n"+
+								" ellipse(mouseX, mouseY, 80, 80);\n"+
+								"}\n";
+			
+			editorInput.setText(aniEllipse);
+		} else if(pos == 10) {
+			String idErrors = "void setup() {"+"\n"+
+								" size(200, 200);\n"+
+								"}\n"+
+								"\n"+
+								"void draw() {"+"\n"+
+								" int x = 50\n"+
+								" ellipse(300, 200, 50, 50;\n"+
+								"}\n";
+			editorInput.setText(idErrors);
+		}
   }
   
   @Override 
@@ -171,38 +213,31 @@ public class GettingStarted implements Tool, ActionListener {
 		String selected = e.getActionCommand();
 		
 		if(selected.equals("Try It!")) {
-			Editor editor = base.getActiveEditor();
-			if(pos == 1) {
-				String drawEllipse = "ellipse(50, 50, 80, 80);";
-				editor.setText(drawEllipse);
-			} else if(pos == 3) {
-				String aniEllipse = "void setup() {"+"\n"+
-									" size(480, 120);\n"+
-									"}\n"+
-									"\n"+
-									"void draw() {"+"\n"+
-									" if(mousePressed) {"+"\n"+
-									"   fill(0);\n"+
-									" } else {\n" +
-									"   fill(255);\n"+
-									" }\n"+
-									" ellipse(mouseX, mouseY, 80, 80);\n"+
-									"}\n";
-				
-				editor.setText(aniEllipse);
-			} else if(pos == 10) {
-				String idErrors = "void setup() {"+"\n"+
-									" size(200, 200);\n"+
-									"}\n"+
-									"\n"+
-									"void draw() {"+"\n"+
-									" int x = 50\n"+
-									" ellipse(300, 200, 50, 50;\n"+
-									"}\n";
-				editor.setText(idErrors);
+			if(open == 0) {
+				base.handleNew();
+				openLocation = base.getEditors().size() - 1;
+			}
+			open = 1;
+			
+
+			// if the the editor number is lower than the actual number of editors open rn,
+			// then retrieve that editor to populate the example text
+			if(openLocation < base.getEditors().size()) {
+				Editor editor = base.getEditors().get(openLocation);
+				setCode(editor);
+				editor.requestFocus();
+			// if the editor number is higher than the actual number of editors open rn,
+			// then open a new editor to populate the example text and remember that location instead
+			} else {
+				base.handleNew();
+				openLocation = base.getEditors().size() - 1;
+				Editor editor = base.getEditors().get(openLocation);
+				setCode(editor);
+				editor.requestFocus();
 			}
 		}
 		
+		// enabling and abling buttons
 		if(selected.equals("Previous")) {
 			pos = pos - 1;
 			nextButton.setEnabled(true);
