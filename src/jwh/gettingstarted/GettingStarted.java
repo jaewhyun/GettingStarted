@@ -54,9 +54,6 @@ import processing.app.ui.WebFrame;
 import java.io.*;
 import java.util.*;
 
-// when creating a tool, the name of the main class which implements Tool must
-// be the same as the value defined for project.name in your build.properties
-
 public class GettingStarted implements Tool, ActionListener {
   Base base;
   WFrame currentFrame;
