@@ -60,6 +60,7 @@ public class WFrame extends JFrame {
 	public WFrame(int width, int height, Container panel) throws IOException {
 		setSize(width, height);
 		super.setResizable(false);
+		super.setTitle("Getting Started");
 	
 		editorPane = new JEditorPane();
 		editorPane.setEditable(false);
