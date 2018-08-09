@@ -94,6 +94,7 @@ public class WFrame extends JFrame {
 		editorPane.setEditorKit(editorkit);
 		css = editorkit.getStyleSheet();
 		css.addRule("body {font-family: ProcessingSansPro-Regular; font-size: 10px; background-color:#EEEEEE}"); 
+		css.addRule("p {padding-left: 15px; padding-right: 15px;}");
 		
 		editorPane.addHyperlinkListener(new HyperlinkListener() {
 			@Override
