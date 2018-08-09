@@ -78,7 +78,9 @@ public class GettingStarted implements Tool, ActionListener {
 		  "/data/static/10.html",
 		  "/data/static/11.html",
 		  "/data/static/12.html",
-		  "/data/static/13.html"};
+		  "/data/static/13.html",
+		  "/data/static/14.html",
+		  "/data/static/15.html"};
 		  
 
   public String getMenuTitle() {
