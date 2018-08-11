@@ -60,7 +60,9 @@ public class GettingStarted implements Tool, ActionListener {
   JButton tryitButton;
   JButton previousButton;
   JButton nextButton;
-  int open = 0;
+  
+  // variable to indicate whether a new editor has been opened before
+  boolean open = false;
   int openLocation = 0;
   
   int pos = 0;
@@ -81,7 +83,7 @@ public class GettingStarted implements Tool, ActionListener {
 		  "/data/static/13.html",
 		  "/data/static/14.html",
 		  "/data/static/15.html"};
-		  
+  HashMap<Integer, String> tutorialCode = new HashMap<Integer, String>();
 
   public String getMenuTitle() {
     return "Getting Started";
@@ -94,15 +96,15 @@ public class GettingStarted implements Tool, ActionListener {
 
 
   public void run() {
-    Editor editor = base.getActiveEditor();
     createWalkthrough();
-    System.out.println("Getting Started 1.0.0 by Jae Hyun");
+    System.out.println("Getting Started 1.1.0 by Jae Hyun");
   }
   
   /*
    * Adding buttons to the frame
    */
   public void createWalkthrough() {
+	  // if the frame had been opened before
 	  if(currentFrame != null) {
 		  	displayhtml(0);
 		  	pos = 0;
@@ -113,15 +115,18 @@ public class GettingStarted implements Tool, ActionListener {
 	  JComponent panel = Box.createHorizontalBox();
 	  panel.setBackground(new Color(245, 245, 245));
 	  
+	  // adding Try It button to populate tutorial code into a new editor
 	  tryitButton = new JButton("Try It!");
 	  tryitButton.addActionListener(this);
 	  tryitButton.setActionCommand("Try It!");
 	  tryitButton.setEnabled(false);
 	  
+	  // adding Previous button to return to the previous frame
 	  previousButton = new JButton("Previous");
 	  previousButton.addActionListener(this);
 	  previousButton.setActionCommand("Previous");
 	  
+	  // adding Next button to flip to the next frame
 	  nextButton = new JButton("Next");
 	  nextButton.addActionListener(this);
 	  nextButton.setActionCommand("Next");
@@ -142,6 +147,7 @@ public class GettingStarted implements Tool, ActionListener {
 		  currentFrame = new WFrame(439, 570, panel);
 		  currentFrame.setVisible(true);
 		  currentFrame.requestFocusInWindow();
+		  setTutorialCode();
 		  displayhtml(pos);
 		  previousButton.setEnabled(false);
 	  } catch(IOException e) {
@@ -172,35 +178,39 @@ public class GettingStarted implements Tool, ActionListener {
    * Setting Try It codes
    */
   public void setCode(Editor editorInput) {
-		if(pos == 1) {
-			String drawEllipse = "ellipse(50, 50, 80, 80);";
-			editorInput.setText(drawEllipse);
-		} else if(pos == 3) {
-			String aniEllipse = "void setup() {"+"\n"+
-								" size(480, 120);\n"+
-								"}\n"+
-								"\n"+
-								"void draw() {"+"\n"+
-								" if(mousePressed) {"+"\n"+
-								"   fill(0);\n"+
-								" } else {\n" +
-								"   fill(255);\n"+
-								" }\n"+
-								" ellipse(mouseX, mouseY, 80, 80);\n"+
-								"}\n";
-			
-			editorInput.setText(aniEllipse);
-		} else if(pos == 10) {
-			String idErrors = "void setup() {"+"\n"+
-								" size(200, 200);\n"+
-								"}\n"+
-								"\n"+
-								"void draw() {"+"\n"+
-								" int x = 50\n"+
-								" ellipse(300, 200, 50, 50;\n"+
-								"}\n";
-			editorInput.setText(idErrors);
-		}
+	  if(tutorialCode.containsKey(pos)) {
+		  editorInput.setText(tutorialCode.get(pos));
+	  }
+  }
+  
+  /*
+   * Saving Tutorial Code into Map
+   */
+  public void setTutorialCode() {
+	  String drawEllipse = "ellipse(50, 50, 80, 80);";
+	  tutorialCode.put(1, drawEllipse);
+	  String aniEllipse = "void setup() {"+"\n"+
+				" size(480, 120);\n"+
+				"}\n"+
+				"\n"+
+				"void draw() {"+"\n"+
+				" if(mousePressed) {"+"\n"+
+				"   fill(0);\n"+
+				" } else {\n" +
+				"   fill(255);\n"+
+				" }\n"+
+				" ellipse(mouseX, mouseY, 80, 80);\n"+
+				"}\n";
+	  tutorialCode.put(3, aniEllipse);
+	  String idErrors = "void setup() {"+"\n"+
+				" size(200, 200);\n"+
+				"}\n"+
+				"\n"+
+				"void draw() {"+"\n"+
+				" int x = 50\n"+
+				" ellipse(300, 200, 50, 50;\n"+
+				"}\n";
+	  tutorialCode.put(10, idErrors);
   }
   
   @Override 
@@ -212,28 +222,29 @@ public class GettingStarted implements Tool, ActionListener {
 		String selected = e.getActionCommand();
 		
 		if(selected.equals("Try It!")) {
-			if(open == 0) {
+			if(open == false) {
 				base.handleNew();
 				openLocation = base.getEditors().size() - 1;
 			}
-			open = 1;
+			// indicates that a new editor is now open
+			open = true;
 			
-
+			Editor editor;
 			// if the the editor number is lower than the actual number of editors open rn,
 			// then retrieve that editor to populate the example text
 			if(openLocation < base.getEditors().size()) {
-				Editor editor = base.getEditors().get(openLocation);
-				setCode(editor);
-				editor.requestFocus();
+				editor = base.getEditors().get(openLocation);
+				
 			// if the editor number is higher than the actual number of editors open rn,
 			// then open a new editor to populate the example text and remember that location instead
 			} else {
 				base.handleNew();
 				openLocation = base.getEditors().size() - 1;
-				Editor editor = base.getEditors().get(openLocation);
-				setCode(editor);
-				editor.requestFocus();
+				editor = base.getEditors().get(openLocation);
 			}
+			
+			setCode(editor);
+			editor.requestFocus();
 		}
 		
 		// enabling and abling buttons
